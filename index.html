@@ -200,12 +200,21 @@
   .guide-info li b{color:var(--forest)}
 
   /* gallery */
-  .gallery{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:280px 280px;gap:18px}
-  .gallery figure{position:relative;border-radius:var(--r);overflow:hidden;cursor:zoom-in}
-  .gallery figure:first-child{grid-row:span 2}
+  .carousel{position:relative}
+  .gallery{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px;margin:0 -2px}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery figure{position:relative;flex:0 0 calc((100% - 40px)/3);aspect-ratio:4/5;margin:0;border-radius:var(--r);overflow:hidden;cursor:zoom-in;scroll-snap-align:start;background:var(--cream-2);box-shadow:var(--shadow-sm)}
   .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-  .gallery figure:hover img{transform:scale(1.06)}
-  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 18px;background:linear-gradient(transparent,rgba(10,25,16,.75));color:#fff;font-weight:600;font-size:14px}
+  .gallery figure:hover img{transform:scale(1.05)}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:48px 22px 20px;background:linear-gradient(transparent,rgba(10,25,16,.8));color:#fff;font-weight:600;font-size:14.5px}
+  .car-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px}
+  .car-dots{display:flex;gap:8px}
+  .car-dots button{width:9px;height:9px;border-radius:9px;border:none;background:rgba(19,48,31,.2);cursor:pointer;padding:0;transition:width .35s,background .35s}
+  .car-dots button.active{width:30px;background:var(--gold)}
+  .car-arrows{display:flex;gap:10px}
+  .car-arrows button{width:50px;height:50px;border-radius:50%;border:1.5px solid rgba(19,48,31,.18);background:#fff;color:var(--forest);font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:all .25s}
+  .car-arrows button:hover:not(:disabled){background:var(--forest);color:#fff;border-color:var(--forest)}
+  .car-arrows button:disabled{opacity:.35;cursor:default}
   .gallery figcaption .script{color:var(--gold-2);font-size:24px;display:block;line-height:1}
 
   /* steps */
@@ -357,6 +366,7 @@
     .modal-box{grid-template-columns:1fr}
     .modal-media{min-height:0;height:380px}
   }
+  @media (max-width:1020px){.gallery figure{flex-basis:calc((100% - 20px)/2)}}
   @media (max-width:640px){
     .container{padding:0 16px}
     .section{padding:72px 0}
@@ -369,9 +379,8 @@
     .feat-row{grid-template-columns:repeat(2,1fr);gap:20px}
     .grid{grid-template-columns:1fr}
     .steps{grid-template-columns:1fr}
-    .gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-    .gallery figure{height:200px}
-    .gallery figure:first-child{grid-column:span 2;grid-row:auto;height:300px}
+    .gallery{gap:14px;margin:0 -16px;padding:4px 16px 8px;scroll-padding:0 16px}
+    .gallery figure{flex-basis:82%}
     .about-media{height:400px}
     .pros{grid-template-columns:1fr}
     .order{padding:36px 22px;border-radius:24px}
@@ -526,12 +535,15 @@
       <div class="eyebrow">У ваших домівках</div>
       <h2>Магія, яку створюють наші клієнти</h2>
     </div>
-    <div class="gallery reveal">
+    <div class="carousel reveal">
+    <div class="gallery" id="gallery">
       <figure><img src="img/lights.jpg" alt="Віденська ялинка з гірляндою" loading="lazy"><figcaption><span class="script">Віденська</span>Ялинка, якій не потрібна реклама</figcaption></figure>
       <figure><img src="img/studio.jpg" alt="Альпійська ялинка у фотостудії" loading="lazy"><figcaption><span class="script">Альпійська</span>Прикрашає фотостудію</figcaption></figure>
       <figure><img src="img/vienna-room.jpg" alt="Віденська зелена у вітальні" loading="lazy"><figcaption><span class="script">Віденська</span>Пишна та реалістична</figcaption></figure>
       <figure><img src="img/needles.jpg" alt="Лита хвоя крупним планом" loading="lazy"><figcaption><span class="script">Деталі</span>Натуральна структура гілок</figcaption></figure>
       <figure><img src="img/needles-hand.jpg" alt="Гілка лита" loading="lazy"><figcaption><span class="script">На дотик</span>М’яка, але пружна хвоя</figcaption></figure>
+    </div>
+    <div class="car-nav"><div class="car-dots" id="carDots"></div><div class="car-arrows"><button id="carPrev" aria-label="Назад">‹</button><button id="carNext" aria-label="Вперед">›</button></div></div>
     </div>
   </div>
 </section>
@@ -853,6 +865,27 @@ document.getElementById('orderForm').addEventListener('submit',e=>{
   e.preventDefault(); e.target.style.display='none'; document.getElementById('success').classList.add('show');
   cart=[]; save(); renderCart();
 });
+
+
+/* ---------- gallery carousel ---------- */
+(function(){
+  const tr=document.getElementById('gallery'), slides=[...tr.children], dots=document.getElementById('carDots');
+  const prev=document.getElementById('carPrev'), next=document.getElementById('carNext');
+  const step=()=>slides[1].offsetLeft-slides[0].offsetLeft;
+  const maxI=()=>Math.max(0,Math.round((tr.scrollWidth-tr.clientWidth)/step()));
+  let timer;
+  function build(){dots.innerHTML='';for(let i=0;i<=maxI();i++){const b=document.createElement('button');b.setAttribute('aria-label','Слайд '+(i+1));b.onclick=()=>{go(i);restart();};dots.appendChild(b);}sync();}
+  function cur(){return Math.round(tr.scrollLeft/step());}
+  function go(i){tr.scrollTo({left:Math.max(0,Math.min(i,maxI()))*step()});}
+  function sync(){const i=cur(),m=maxI();[...dots.children].forEach((d,k)=>d.classList.toggle('active',k===i));prev.disabled=i<=0;next.disabled=i>=m;}
+  prev.onclick=()=>{go(cur()-1);restart();}; next.onclick=()=>{go(cur()+1);restart();};
+  tr.addEventListener('scroll',()=>requestAnimationFrame(sync),{passive:true});
+  function restart(){clearInterval(timer);if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;timer=setInterval(()=>{const i=cur();go(i>=maxI()?0:i+1);},5000);}
+  ['mouseenter','touchstart'].forEach(ev=>tr.addEventListener(ev,()=>clearInterval(timer),{passive:true}));
+  tr.addEventListener('mouseleave',restart);tr.addEventListener('touchend',restart,{passive:true});
+  window.addEventListener('resize',build);
+  build();restart();
+})();
 
 /* ---------- gallery lightbox ---------- */
 const lb=document.getElementById('lightbox');
