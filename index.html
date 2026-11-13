@@ -347,6 +347,15 @@
 
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--forest);color:#fff;padding:14px 22px;border-radius:100px;font-weight:600;font-size:14.5px;z-index:500;box-shadow:var(--shadow-lg);transition:transform .45s cubic-bezier(.3,1.4,.5,1);display:flex;gap:10px;align-items:center}
   .toast.show{transform:translate(-50%,0)}
+  .demo-modal{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(19,30,22,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+  .demo-modal.show{opacity:1;pointer-events:auto}
+  .demo-card{position:relative;width:100%;max-width:440px;background:#FDF9F2;border-radius:32px;padding:44px 32px 36px;text-align:center;box-shadow:0 30px 80px rgba(10,25,16,.35);transform:translateY(24px) scale(.96);transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+  .demo-modal.show .demo-card{transform:none}
+  .demo-ico{width:68px;height:68px;margin:0 auto 20px;border-radius:50%;background:#EAF1EA;display:grid;place-items:center;font-size:32px;box-shadow:0 0 0 6px rgba(217,183,122,.18)}
+  .demo-card h3{font-size:clamp(28px,7vw,36px);line-height:1.15;margin-bottom:14px}
+  .demo-card p{color:var(--muted);font-size:15px;line-height:1.65;margin-bottom:26px}
+  .demo-card p a{color:var(--gold);font-weight:800}
+  .demo-card .x{position:absolute;top:16px;right:16px}
   .to-top{position:fixed;right:16px;bottom:16px;z-index:150;width:54px;height:54px;border-radius:50%;border:none;background:var(--forest);color:var(--gold-2);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow-md);opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.3,1.4,.5,1),background .25s}
   .to-top.show{opacity:1;transform:none;pointer-events:auto}
   .to-top:hover{background:var(--forest-2)}
@@ -628,7 +637,7 @@
           </div>
           <div class="field"><label for="fCity">Місто та відділення НП</label><input id="fCity" placeholder="Київ, відділення №1"></div>
           <button class="btn btn-gold" type="submit" style="margin-top:6px">Надіслати заявку</button>
-          <p class="form-note">Демо-форма від <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" class="nest-link">nest.a.s</a>: після надсилання відкриється Threads розробника.</p>
+          <p class="form-note">Демо-форма від <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" class="nest-link">nest.a.s</a>: замовлення тут не працюють.</p>
         </form>
         <div class="success" id="success">
           <div class="ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12l5 5 9-10"/></svg></div>
@@ -691,6 +700,15 @@
   <figure><img alt="" id="lbImg"><figcaption id="lbCap"></figcaption></figure>
 </div>
 <div class="toast" id="toast"></div>
+<div class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+  <div class="demo-card">
+    <button class="x" id="demoClose" aria-label="Закрити">×</button>
+    <div class="demo-ico">🎄</div>
+    <h3 id="demoTitle">Хочете таку вітрину?<br>Напишіть мені</h3>
+    <p>Це демо-сайт, який зробила <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">@nest.a.s</a>. Замовлення тут не працюють. Якщо вам потрібен такий сайт для вашого магазину, напишіть мені в&nbsp;Threads.</p>
+    <a class="btn btn-gold" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">Написати в Threads</a>
+  </div>
+</div>
 <button class="to-top" id="toTop" aria-label="Нагору">
   <svg class="ring" viewBox="0 0 54 54"><circle cx="27" cy="27" r="25" stroke="rgba(217,183,122,.2)"/><circle id="toTopRing" cx="27" cy="27" r="25" stroke="#D9B77A" stroke-linecap="round" stroke-dasharray="157.1" stroke-dashoffset="157.1"/></svg>
   <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
@@ -902,8 +920,7 @@ phone.addEventListener('keydown',e=>{if(e.key.length===1&&!/[0-9]/.test(e.key)&&
 
 document.getElementById('orderForm').addEventListener('submit',e=>{
   e.preventDefault();
-  if(phoneDigits(phone.value).length!==10){phone.parentElement.classList.add('invalid');phone.focus();return;} e.target.style.display='none'; document.getElementById('success').classList.add('show');
-  const w=window.open('https://www.threads.com/@nest.a.s','_blank','noopener'); if(!w) setTimeout(()=>location.href='https://www.threads.com/@nest.a.s',1200);
+  if(phoneDigits(phone.value).length!==10){phone.parentElement.classList.add('invalid');phone.focus();return;} openDemo();
   cart=[]; save(); renderCart();
 });
 
@@ -970,6 +987,14 @@ window.addEventListener('scroll',()=>document.getElementById('header').classList
   for(let i=0;i<34;i++){const f=document.createElement('i');const z=2+Math.random()*5;
     f.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;opacity:${.4+Math.random()*.5};animation-duration:${9+Math.random()*12}s;animation-delay:${-Math.random()*20}s`;s.appendChild(f);}
 })();
+
+// demo modal
+const demoModal=document.getElementById('demoModal');
+function openDemo(){demoModal.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('demoClose').focus(),50);}
+function closeDemo(){demoModal.classList.remove('show');document.body.style.overflow='';}
+document.getElementById('demoClose').onclick=closeDemo;
+demoModal.addEventListener('click',e=>{if(e.target===demoModal)closeDemo();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&demoModal.classList.contains('show'))closeDemo();});
 
 // back to top
 (function(){
