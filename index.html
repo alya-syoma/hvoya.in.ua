@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ХВОЯ — штучні литі ялинки · демо від nest.a.s</title>
 <meta name="description" content="Демо-версія від nest.a.s. Вітрина виробника штучних литих ялинок: каталог, акційні ціни, замовлення онлайн.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -370,6 +370,13 @@
   .demo-badge button{background:none;border:none;color:rgba(248,243,234,.6);font-size:16px;cursor:pointer;margin-left:2px;line-height:1}
   .nest-link{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
   .nest-link:hover{opacity:.8}
+  /* keep floating buttons above mobile browser toolbars: anchor to the dynamic viewport */
+  .to-top{bottom:calc(16px + env(safe-area-inset-bottom))}
+  .demo-badge{bottom:calc(16px + env(safe-area-inset-bottom))}
+  @supports (top:100dvh){
+    .to-top{bottom:auto;top:calc(100dvh - 70px - env(safe-area-inset-bottom))}
+    .demo-badge{bottom:auto;top:calc(100dvh - 16px - env(safe-area-inset-bottom));transform:translateY(-100%)}
+  }
   .demo-badge.hidden{opacity:0;pointer-events:none}
   .demo-strip{background:var(--gold);color:#fff;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:6px 16px}
 
