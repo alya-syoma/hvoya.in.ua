@@ -28,7 +28,8 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;scroll-padding-top:90px}
-  body{font-family:'Manrope',sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;overflow-x:hidden}
+  html,body{overflow-x:hidden;overflow-x:clip;max-width:100%}
+  body{font-family:'Manrope',sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;position:relative}
   h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.05;color:var(--forest)}
   a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
@@ -41,6 +42,7 @@
   .section-head{text-align:center;max-width:720px;margin:0 auto 56px}
   .section-head h2{font-size:clamp(36px,4.6vw,58px);margin-bottom:14px}
   .section-head p{color:var(--muted);font-size:17px}
+  .section-head h2.one-line{white-space:nowrap;font-size:clamp(23px,6.6vw,58px)}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;border-radius:100px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background .3s,color .3s;white-space:nowrap}
   .btn-gold{background:linear-gradient(135deg,#C99A57,#A87A3C);color:#fff;box-shadow:0 10px 28px rgba(168,122,60,.35)}
@@ -280,8 +282,8 @@
   /* drawer */
   .overlay{position:fixed;inset:0;background:rgba(10,22,14,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .35s;z-index:200}
   .overlay.show{opacity:1;pointer-events:auto}
-  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--cream);z-index:201;transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.2)}
-  .drawer.show{transform:none}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--cream);z-index:201;transform:translateX(100%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none;visibility:visible;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
   .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:24px 28px;border-bottom:1px solid rgba(19,48,31,.1)}
   .drawer-head h3{font-size:32px}
   .x{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(19,48,31,.15);background:#fff;cursor:pointer;font-size:22px;color:var(--forest);line-height:1;transition:transform .3s}
@@ -555,7 +557,7 @@
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">Як замовити</div>
-      <h2>Від заявки до свята — 4 кроки</h2>
+      <h2 class="one-line">Від заявки до свята — 4&nbsp;кроки</h2>
     </div>
     <div class="steps reveal">
       <div class="step"><h3>Заявка</h3><p>Оформіть замовлення на сайті або напишіть нам в Instagram — консультант зв’яжеться за 15 хвилин.</p></div>
