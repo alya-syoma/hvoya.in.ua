@@ -288,7 +288,7 @@
         </div>
       </div>
       <div class="stats">
-        <div><b>9</b><span>моделей</span></div>
+        <div><b>10</b><span>моделей</span></div>
         <div><b>1,5–2,5 м</b><span>п’ять висот</span></div>
         <div><b>15 хв</b><span>на збирання</span></div>
       </div>
@@ -303,10 +303,10 @@
       <p>Від класичної смарагдової до морозно-блакитної — натисніть на колекцію, щоб побачити моделі.</p>
     </div>
     <div class="tiles reveal">
-      <button class="tile" data-go="green"><span class="ti" style="background:#E3ECDF">🌲</span><span><b>Зелені</b><small>6 моделей</small></span><i>→</i></button>
+      <button class="tile" data-go="green"><span class="ti" style="background:#E3ECDF">🌲</span><span><b>Зелені</b><small>7 моделей</small></span><i>→</i></button>
       <button class="tile" data-go="blue"><span class="ti" style="background:#E2ECEC">❄️</span><span><b>Блакитні</b><small>4 моделі</small></span><i>→</i></button>
       <button class="tile" data-go="hit"><span class="ti" style="background:#F3E8D3">⭐</span><span><b>Хіти сезону</b><small>найпопулярніші</small></span><i>→</i></button>
-      <button class="tile" data-go="small"><span class="ti" style="background:#F1E6E2">🏠</span><span><b>Для квартири</b><small>1,5–1,8 м</small></span><i>→</i></button>
+      <button class="tile" data-go="pine"><span class="ti" style="background:#E1EDE8">🌿</span><span><b>Сосни</b><small>новинка сезону</small></span><i>→</i></button>
     </div>
   </div>
 </section>
@@ -320,6 +320,7 @@
           <button class="chip active" data-f="all">Усі</button>
           <button class="chip" data-f="green">Зелені</button>
           <button class="chip" data-f="blue">Блакитні</button>
+          <button class="chip" data-f="pine">Сосни</button>
         </div>
         <div class="chips" id="heights"></div>
       </div>
@@ -407,10 +408,12 @@ const P={
   vien:[[3450,2400],[5700,3800],[7350,4900],[9300,6200],[12300,8200]],
   alaska:[[5250,3500],[8250,5500],[10050,6700],[12450,8300],[16125,10750]],
 };
+const P0=[[0,0],[0,0],[0,0],[0,0],[0,0]]; // ціна за запитом
 const products=[
+  {id:'pine',name:'Сосна',sub:'новинка',color:'green',cat:'pine',img:'img/pine.jpg',prices:P0,tag:'Новинка',desc:'Пухнаста сосна з довгою м’якою хвоєю. Ціну уточнюйте в Telegram.'},
   {id:'vienna',name:'Віденська',sub:'зелена',color:'green',img:'img/vienna.jpg',prices:P.vien,tag:'Хіт',desc:'Пишна та реалістична, з м’якою густою хвоєю.'},
   {id:'alpine',name:'Альпійська',sub:'зелена',color:'green',img:'img/alpine.jpg',prices:P.alpine,tag:'Хіт',desc:'Глибокий смарагдовий колір, як у гірської ялини.'},
-  {id:'alaska',name:'Аляска',sub:'преміум',color:'blue',img:'img/alaska.jpg',prices:P.alaska,tag:'Новинка',desc:'Найгустіша крона та сіро-блакитна хвоя.'},
+  {id:'alaska',name:'Аляска',sub:'преміум',color:'blue',img:'img/alaska.jpg',prices:P.alaska,tag:'Преміум',desc:'Найгустіша крона та сіро-блакитна хвоя.'},
   {id:'lapland-blue',name:'Лапландська',sub:'блакитна',color:'blue',img:'img/lapland-blue.jpg',prices:P.lap,desc:'Морозно-блакитна хвоя з ефектом інею.'},
   {id:'milan',name:'Міланська',sub:'зелена',color:'green',img:'img/milan.jpg',prices:P.milan,desc:'Об’ємна форма з природними відтінками.'},
   {id:'vienna-blue',name:'Віденська',sub:'блакитна',color:'blue',img:'img/vienna-blue.jpg',prices:P.vien,desc:'Пишна Віденська у ніжному блакитному.'},
@@ -420,6 +423,7 @@ const products=[
 ];
 const num=n=>n.toLocaleString('uk-UA').replace(/\s/g,' ');
 const fmt=n=>num(n)+' грн';
+const fmtP=n=>n?fmt(n):'за запитом';
 let hIdx=2, filter='all';
 
 /* catalog */
@@ -427,19 +431,19 @@ const grid=document.getElementById('grid'), heights=document.getElementById('hei
 heights.innerHTML=H.map((h,k)=>`<button class="chip${k===hIdx?' active':''}" data-k="${k}">${h} м</button>`).join('');
 function render(){
   grid.innerHTML=products.map(p=>{const [o,n]=p.prices[hIdx];
-    return `<article class="card" data-id="${p.id}" data-color="${p.color}" data-tag="${p.tag||''}">
-      <div class="card-media"><img src="${p.img}" alt="Ялинка ${p.name} ${p.sub}" loading="lazy">${p.tag?`<span class="tag">${p.tag}</span>`:''}<span class="tag sale">−${Math.round((1-n/o)*100)}%</span></div>
+    return `<article class="card" data-id="${p.id}" data-color="${p.color}" data-cat="${p.cat||'fir'}" data-tag="${p.tag||''}">
+      <div class="card-media"><img src="${p.img}" alt="Ялинка ${p.name} ${p.sub}" loading="lazy">${p.tag?`<span class="tag">${p.tag}</span>`:''}${n?`<span class="tag sale">−${Math.round((1-n/o)*100)}%</span>`:''}</div>
       <div class="card-body">
         <div class="card-type"><span class="dot" style="background:${p.color==='blue'?'var(--blue)':'var(--pine)'}"></span>${p.sub} · ${H[hIdx]} м</div>
         <h3>${p.name}</h3><p>${p.desc}</p>
-        <div class="price-row"><div class="price">${fmt(n)} <s>${fmt(o)}</s></div>
+        <div class="price-row"><div class="price">${n?`${fmt(n)} <s>${fmt(o)}</s>`:'Ціна за запитом'}</div>
           <button class="add" data-add aria-label="Додати в кошик"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></button></div>
       </div></article>`;}).join('');
   applyFilter();
 }
 function applyFilter(){
   grid.querySelectorAll('.card').forEach(c=>{
-    const ok=filter==='all'||(filter==='hit'?c.dataset.tag:c.dataset.color===filter);
+    const ok=filter==='all'||(filter==='hit'?c.dataset.tag==='Хіт':filter==='pine'?c.dataset.cat==='pine':c.dataset.color===filter);
     c.classList.toggle('hide',!ok);});
   document.querySelectorAll('#filters .chip').forEach(x=>x.classList.toggle('active',x.dataset.f===filter));
 }
@@ -450,7 +454,7 @@ grid.addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(!a)r
   addToCart(a.closest('.card').dataset.id,hIdx);a.classList.add('done');setTimeout(()=>a.classList.remove('done'),900);});
 document.querySelectorAll('[data-go]').forEach(t=>t.onclick=()=>{
   const g=t.dataset.go;
-  if(g==='small'){filter='all';setHeight(1);}else{filter=g;applyFilter();}
+  filter=g;applyFilter();
   document.getElementById('catalog').scrollIntoView({behavior:'smooth'});
 });
 document.querySelectorAll('[data-f-link]').forEach(a=>a.addEventListener('click',()=>{filter=a.dataset.fLink;applyFilter();}));
@@ -474,8 +478,8 @@ function renderCart(){
   if(!count){list.innerHTML='<div class="empty">Кошик поки порожній.<br>Оберіть ялинку в каталозі 🎄</div>';return;}
   let tot=0;
   list.innerHTML=cart.map((c,i)=>{const p=products.find(x=>x.id===c.id),n=p.prices[c.h][1];tot+=n*c.q;
-    return `<div class="ci-row"><img src="${p.img}" alt=""><div><b>${p.name} ${p.sub}</b><small>Висота ${H[c.h]} м</small><div class="qty"><button data-q="-1" data-i="${i}">−</button>${c.q}<button data-q="1" data-i="${i}">+</button></div></div><div class="ci-price">${fmt(n*c.q)}</div></div>`;}).join('');
-  document.getElementById('cartTotal').textContent=fmt(tot);
+    return `<div class="ci-row"><img src="${p.img}" alt=""><div><b>${p.name} ${p.sub}</b><small>Висота ${H[c.h]} м</small><div class="qty"><button data-q="-1" data-i="${i}">−</button>${c.q}<button data-q="1" data-i="${i}">+</button></div></div><div class="ci-price">${fmtP(n*c.q)}</div></div>`;}).join('');
+  document.getElementById('cartTotal').textContent=(tot?fmt(tot):'')+(cart.some(c=>!products.find(x=>x.id===c.id).prices[c.h][1])?(tot?' + запит':'за запитом'):'');
 }
 document.getElementById('cartList').addEventListener('click',e=>{const q=e.target.dataset.q;if(!q)return;
   const i=+e.target.dataset.i;cart[i].q+=+q;if(cart[i].q<1)cart.splice(i,1);save();renderCart();});
@@ -488,7 +492,7 @@ overlay.onclick=closeDrawer;
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 document.getElementById('checkout').onclick=()=>{
   let tot=0;
-  const lines=['🎄 Замовлення з сайту ХВОЯ',''].concat(cart.map(c=>{const p=products.find(x=>x.id===c.id),n=p.prices[c.h][1]*c.q;tot+=n;return `• ${p.name} ${p.sub}, ${H[c.h]} м × ${c.q} — ${fmt(n)}`;}));
+  const lines=['🎄 Замовлення з сайту ХВОЯ',''].concat(cart.map(c=>{const p=products.find(x=>x.id===c.id),n=p.prices[c.h][1]*c.q;tot+=n;return `• ${p.name} ${p.sub}, ${H[c.h]} м × ${c.q} — ${fmtP(n)}`;}));
   lines.push('','Разом: '+fmt(tot));
   copyText(lines.join('\n'));
   window.open(TG,'_blank','noopener');
