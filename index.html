@@ -89,15 +89,23 @@
   @keyframes fall{to{transform:translate3d(30px,760px,0)}}
 
   /* collections */
-  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .tile{position:relative;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);text-align:left;border:none;padding:0;background:var(--cream-2)}
-  .tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-  .tile:hover img{transform:scale(1.06)}
-  .tile-label{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,253,249,.92);backdrop-filter:blur(8px);border-radius:16px;padding:12px 14px}
-  .tile-label b{display:block;font-family:'Cormorant Garamond';font-size:22px;color:var(--forest);line-height:1.1}
-  .tile-label small{font-size:12px;color:var(--muted)}
-  .tile-label i{width:34px;height:34px;border-radius:50%;background:var(--cream-2);display:grid;place-items:center;font-style:normal;color:var(--forest);flex-shrink:0;transition:background .3s,color .3s}
-  .tile:hover .tile-label i{background:var(--forest);color:#fff}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .tile{display:flex;align-items:center;gap:14px;text-align:left;border:1.5px solid rgba(19,48,31,.08);background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s,border-color .3s}
+  .tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold-2)}
+  .tile .ti{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex-shrink:0;font-size:22px}
+  .tile b{display:block;font-family:'Cormorant Garamond';font-size:22px;color:var(--forest);line-height:1.1}
+  .tile small{font-size:12.5px;color:var(--muted)}
+  .tile i{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--cream-2);display:grid;place-items:center;font-style:normal;color:var(--forest);flex-shrink:0;transition:background .3s,color .3s}
+  .tile:hover i{background:var(--forest);color:#fff}
+
+  /* reviews */
+  .revs{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .rev{position:relative;margin:0;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);background:var(--cream-2)}
+  .rev img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .rev:hover img{transform:scale(1.05)}
+  .rev figcaption{position:absolute;left:0;right:0;bottom:0;padding:54px 18px 18px;background:linear-gradient(transparent,rgba(10,25,16,.82));color:rgba(255,255,255,.88);font-size:13px;line-height:1.45}
+  .rev figcaption b{display:block;font-family:'Cormorant Garamond';font-size:22px;color:#fff;margin-bottom:2px}
+  .rev .stars{color:var(--gold-2);letter-spacing:2px;font-size:12px;margin-bottom:4px}
 
   /* catalog */
   .tools{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
@@ -196,6 +204,7 @@
   @media (max-width:1020px){
     nav{display:none}
     .tiles{grid-template-columns:repeat(2,1fr)}
+    .revs{grid-template-columns:repeat(2,1fr)}
     .grid{grid-template-columns:repeat(2,1fr)}
     .story .container{grid-template-columns:minmax(0,1fr)}
     .tools{align-items:flex-start}
@@ -209,10 +218,15 @@
     .hero p{font-size:15.5px}
     .stats{gap:18px;padding:16px 18px 12px;width:max-content;max-width:100%}
     .stats b{font-size:21px}
-    .tiles{gap:12px}
-    .tile-label{left:8px;right:8px;bottom:8px;padding:10px}
-    .tile-label b{font-size:18px}
-    .tile-label i{display:none}
+    .tiles{gap:10px}
+    .tile{padding:12px;gap:10px;border-radius:16px}
+    .tile .ti{width:38px;height:38px;font-size:18px;border-radius:12px}
+    .tile b{font-size:18px}
+    .tile small{font-size:11.5px}
+    .tile i{display:none}
+    .revs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -16px;padding:0 16px 8px;scrollbar-width:none}
+    .revs::-webkit-scrollbar{display:none}
+    .rev{flex:0 0 78%;scroll-snap-align:center}
     .grid{gap:12px}
     .card{padding:6px 6px 14px;border-radius:20px}
     .card-media{border-radius:15px}
@@ -248,6 +262,7 @@
       <li><a href="#collections">Колекції</a></li>
       <li><a href="#catalog">Каталог</a></li>
       <li><a href="#about">Про нас</a></li>
+      <li><a href="#reviews">Відгуки</a></li>
       <li><a href="#order">Замовити</a></li>
     </ul></nav>
     <button class="icon-btn" id="cartBtn" aria-label="Кошик">
@@ -281,17 +296,17 @@
   </div>
 </section>
 
-<section class="section" id="collections">
+<section class="section" id="collections" style="padding-bottom:72px">
   <div class="container">
     <div class="head reveal">
       <div><div class="eyebrow">Колекції</div><h2>Оберіть характер ялинки</h2></div>
       <p>Від класичної смарагдової до морозно-блакитної — натисніть на колекцію, щоб побачити моделі.</p>
     </div>
     <div class="tiles reveal">
-      <button class="tile" data-go="green"><img src="img/studio.jpg" alt="Зелена ялинка з декором" loading="lazy"><span class="tile-label"><span><b>Зелені</b><small>6 моделей</small></span><i>→</i></span></button>
-      <button class="tile" data-go="blue"><img src="img/client-alaska.jpg" alt="Блакитна ялинка Аляска" loading="lazy"><span class="tile-label"><span><b>Блакитні</b><small>4 моделі</small></span><i>→</i></span></button>
-      <button class="tile" data-go="hit"><img src="img/client-alaska-pink.jpg" alt="Ялинка з рожевим декором" loading="lazy"><span class="tile-label"><span><b>Хіти сезону</b><small>найпопулярніші</small></span><i>→</i></span></button>
-      <button class="tile" data-go="small"><img src="img/client-family.jpg" alt="Ялинка з гірляндою вдома" loading="lazy"><span class="tile-label"><span><b>Для квартири</b><small>1,5–1,8 м</small></span><i>→</i></span></button>
+      <button class="tile" data-go="green"><span class="ti" style="background:#E3ECDF">🌲</span><span><b>Зелені</b><small>6 моделей</small></span><i>→</i></button>
+      <button class="tile" data-go="blue"><span class="ti" style="background:#E2ECEC">❄️</span><span><b>Блакитні</b><small>4 моделі</small></span><i>→</i></button>
+      <button class="tile" data-go="hit"><span class="ti" style="background:#F3E8D3">⭐</span><span><b>Хіти сезону</b><small>найпопулярніші</small></span><i>→</i></button>
+      <button class="tile" data-go="small"><span class="ti" style="background:#F1E6E2">🏠</span><span><b>Для квартири</b><small>1,5–1,8 м</small></span><i>→</i></button>
     </div>
   </div>
 </section>
@@ -330,7 +345,22 @@
   </div>
 </section>
 
-<section class="section" id="order">
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="head reveal">
+      <div><div class="eyebrow">Відгуки</div><h2>Ялинки у домівках клієнтів</h2></div>
+      <p>Справжні фото від наших покупців — так ялинки виглядають після прикрашання.</p>
+    </div>
+    <div class="revs reveal">
+      <figure class="rev"><img src="img/client-alaska-pink.jpg" alt="Ялинка Аляска 2,1 м з рожевим декором" loading="lazy"><figcaption><div class="stars">★★★★★</div><b>Аляска, 2,1 м</b>Красунечка від нашої клієнтки</figcaption></figure>
+      <figure class="rev"><img src="img/client-family.jpg" alt="Дитина прикрашає ялинку" loading="lazy"><figcaption><div class="stars">★★★★★</div><b>Магія вдома</b>Ялинку прикрашають усією родиною</figcaption></figure>
+      <figure class="rev"><img src="img/studio.jpg" alt="Альпійська ялинка у фотостудії" loading="lazy"><figcaption><div class="stars">★★★★★</div><b>Альпійська</b>Прикрашає фотостудію</figcaption></figure>
+      <figure class="rev"><img src="img/client-alaska.jpg" alt="Ялинка Аляска у вітальні" loading="lazy"><figcaption><div class="stars">★★★★★</div><b>Аляска</b>Пухнаста новинка сезону</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="order" style="padding-top:0">
   <div class="container">
     <div class="cta reveal">
       <div class="eyebrow">Швидка ялинкова допомога 24/7</div>
