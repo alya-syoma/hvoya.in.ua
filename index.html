@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ХВОЯ — штучні литі ялинки · демо від nest.a.s</title>
+<meta name="description" content="Демо-версія від nest.a.s. Вітрина виробника штучних литих ялинок: каталог, акційні ціни, замовлення онлайн.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#13301F;
+    --forest-2:#1E4630;
+    --pine:#2F5D41;
+    --gold:#B88A4A;
+    --gold-2:#D9B77A;
+    --cream:#F8F3EA;
+    --cream-2:#EFE6D6;
+    --ink:#1C231E;
+    --muted:#6A7067;
+    --white:#fff;
+    --blue:#5E8F92;
+    --shadow-sm:0 4px 18px rgba(19,48,31,.08);
+    --shadow-md:0 14px 40px rgba(19,48,31,.14);
+    --shadow-lg:0 26px 70px rgba(19,48,31,.22);
+    --r:22px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Manrope',sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;overflow-x:hidden}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.05;color:var(--forest)}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  button{font-family:inherit}
+  .container{max-width:1240px;margin:0 auto;padding:0 32px}
+  .script{font-family:'Caveat',cursive;color:var(--gold);font-weight:700}
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:12.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .eyebrow::before,.eyebrow::after{content:"";width:26px;height:1px;background:var(--gold)}
+  .section{padding:110px 0}
+  .section-head{text-align:center;max-width:720px;margin:0 auto 56px}
+  .section-head h2{font-size:clamp(36px,4.6vw,58px);margin-bottom:14px}
+  .section-head p{color:var(--muted);font-size:17px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;border-radius:100px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,background .3s,color .3s;white-space:nowrap}
+  .btn-gold{background:linear-gradient(135deg,#C99A57,#A87A3C);color:#fff;box-shadow:0 10px 28px rgba(168,122,60,.35)}
+  .btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(168,122,60,.45)}
+  .btn-forest{background:var(--forest);color:#fff}
+  .btn-forest:hover{background:var(--forest-2);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--forest);border:1.5px solid rgba(19,48,31,.22)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-light{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+  .btn-light:hover{background:rgba(255,255,255,.22)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  /* promo bar */
+  .promo-bar{background:var(--forest);color:var(--cream);font-size:13.5px;font-weight:600;text-align:center;padding:10px 16px;position:relative;z-index:101}
+  .promo-bar b{color:var(--gold-2)}
+  .promo-bar .cd{font-variant-numeric:tabular-nums;color:#fff;margin-left:6px}
+
+  /* header */
+  header{position:sticky;top:0;z-index:100;background:rgba(248,243,234,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(19,48,31,.06);transition:box-shadow .3s}
+  header.scrolled{box-shadow:0 6px 24px rgba(19,48,31,.08)}
+  header .container{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-mark{width:46px;height:46px;border-radius:50%;background:#DCE8E1;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 0 0 2px var(--gold-2)}
+  .logo-word{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:26px;letter-spacing:.12em;color:var(--forest);line-height:1}
+  .logo-word small{display:block;font-family:'Manrope';font-size:9.5px;font-weight:700;letter-spacing:.26em;color:var(--gold);margin-top:4px}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{font-weight:600;font-size:14.5px;color:var(--forest);position:relative;padding:4px 0}
+  nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:var(--gold);transition:width .3s}
+  nav a:hover::after{width:100%}
+  .head-actions{display:flex;align-items:center;gap:12px}
+  .cart-btn{position:relative;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(19,48,31,.16);background:#fff;display:grid;place-items:center;cursor:pointer;transition:border-color .3s,transform .3s}
+  .cart-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .cart-count{position:absolute;top:-4px;right:-4px;min-width:21px;height:21px;padding:0 5px;border-radius:20px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:800;display:grid;place-items:center;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .cart-count.show{transform:scale(1)}
+  .cart-btn.bump{animation:bump .5s}
+  @keyframes bump{30%{transform:scale(1.18)}60%{transform:scale(.95)}}
+  .nav-toggle{display:none;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(19,48,31,.16);background:#fff;cursor:pointer}
+  .nav-toggle span{display:block;width:18px;height:2px;background:var(--forest);margin:4px auto;border-radius:2px}
+
+  /* hero */
+  .hero{position:relative;padding:70px 0 100px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 20%,rgba(217,183,122,.28),transparent 45%),radial-gradient(circle at 5% 90%,rgba(47,93,65,.12),transparent 45%);pointer-events:none}
+  .hero .container{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;position:relative}
+  .hero .season{font-size:13px;letter-spacing:.3em;font-weight:700;color:var(--forest);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+  .hero .season svg{flex-shrink:0}
+  .hero h1{font-size:clamp(52px,7vw,96px);letter-spacing:-.01em;margin-bottom:8px}
+  .hero h1 span{display:block;color:var(--gold)}
+  .hero .script{font-size:clamp(26px,2.6vw,34px);margin:6px 0 20px;display:block;transform:rotate(-2deg);transform-origin:left}
+  .hero .lead{font-size:18px;color:#4B544C;max-width:500px;margin-bottom:34px}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:46px}
+  .feat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:560px}
+  .feat{text-align:center}
+  .feat .ic{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;border:1.5px solid var(--gold-2);display:grid;place-items:center;background:#fff;color:var(--forest);transition:transform .35s,background .35s}
+  .feat:hover .ic{transform:translateY(-4px);background:var(--forest);color:var(--gold-2)}
+  .feat p{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--forest);line-height:1.35}
+
+  .hero-visual{position:relative;height:640px}
+  .hero-img{position:absolute;inset:0 0 0 40px;border-radius:200px 200px 28px 28px;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:slowzoom 18s ease-in-out infinite alternate}
+  @keyframes slowzoom{to{transform:scale(1.08)}}
+  .hero-badge{position:absolute;background:#fff;border-radius:18px;padding:16px 20px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:14px}
+  .hero-badge.b1{left:0;bottom:70px;animation:float 6s ease-in-out infinite}
+  .hero-badge.b2{right:-14px;top:70px;animation:float 7s ease-in-out infinite reverse;background:var(--forest);color:#fff}
+  .hero-badge .big{font-family:'Cormorant Garamond';font-size:38px;font-weight:700;color:var(--gold);line-height:1}
+  .hero-badge small{font-size:12.5px;font-weight:600;line-height:1.3;display:block}
+  @keyframes float{50%{transform:translateY(-12px)}}
+  .snow{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .snow i{position:absolute;top:-10px;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.85;box-shadow:0 0 6px rgba(217,183,122,.6);animation:fall linear infinite}
+  @keyframes fall{to{transform:translate3d(30px,700px,0)}}
+
+  /* marquee */
+  .marquee{background:var(--forest);color:var(--cream);overflow:hidden;padding:18px 0;border-top:1px solid rgba(217,183,122,.3);border-bottom:1px solid rgba(217,183,122,.3)}
+  .marquee-track{display:flex;gap:56px;width:max-content;animation:marq 40s linear infinite}
+  .marquee span{font-family:'Cormorant Garamond';font-size:24px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:56px}
+  .marquee span::after{content:"✦";color:var(--gold-2);font-size:16px}
+  @keyframes marq{to{transform:translateX(-50%)}}
+
+  /* catalog */
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:10px 20px;border-radius:100px;background:#fff;border:1.5px solid rgba(19,48,31,.12);font-weight:700;font-size:14px;color:var(--forest);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+  .chip .dot{width:11px;height:11px;border-radius:50%}
+  .chip:hover{border-color:var(--gold)}
+  .chip.active{background:var(--forest);color:#fff;border-color:var(--forest)}
+  .sort{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--muted)}
+  .sort select{appearance:none;padding:10px 38px 10px 18px;border-radius:100px;border:1.5px solid rgba(19,48,31,.12);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2313301F' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center;font:inherit;font-weight:700;color:var(--forest);cursor:pointer}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+  .card.hide{display:none}
+  .card-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--cream-2);cursor:pointer}
+  .card-media img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .card-media img{transform:scale(1.06)}
+  .tag{position:absolute;top:16px;left:16px;padding:6px 13px;border-radius:100px;background:var(--gold);color:#fff;font-size:12.5px;font-weight:800;letter-spacing:.02em}
+  .tag.hit{left:auto;right:16px;background:var(--forest)}
+  .quick{position:absolute;left:16px;right:16px;bottom:16px;padding:12px;border-radius:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);text-align:center;font-weight:700;font-size:14px;color:var(--forest);transform:translateY(20px);opacity:0;transition:all .35s}
+  .card:hover .quick{transform:none;opacity:1}
+  .card-body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
+  .card-type{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .card-type .dot{width:9px;height:9px;border-radius:50%}
+  .card h3{font-size:30px;margin-bottom:16px}
+  .sizes{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+  .size{flex:1;min-width:46px;padding:8px 0;border-radius:10px;border:1.5px solid rgba(19,48,31,.12);background:#fff;font-weight:700;font-size:13px;color:var(--forest);cursor:pointer;transition:all .2s}
+  .size:hover{border-color:var(--gold)}
+  .size.active{background:var(--forest);border-color:var(--forest);color:#fff}
+  .price-row{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;gap:12px}
+  .price-old{font-size:14px;color:var(--muted);text-decoration:line-through}
+  .price{font-family:'Cormorant Garamond';font-size:34px;font-weight:700;color:var(--forest);line-height:1}
+  .price small{font-family:'Manrope';font-size:15px;font-weight:700}
+  .add{width:52px;height:52px;border-radius:50%;border:none;background:var(--gold);color:#fff;cursor:pointer;display:grid;place-items:center;transition:transform .3s,background .3s;flex-shrink:0}
+  .add:hover{background:var(--forest);transform:rotate(90deg)}
+  .add.done{background:var(--pine)}
+
+  /* about / production */
+  .about{background:var(--forest);color:var(--cream);position:relative;overflow:hidden}
+  .about h2{color:#fff}
+  .about .container{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+  .about-media{position:relative;height:560px}
+  .about-media .m1,.about-media .m2{position:absolute;border-radius:24px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+  .about-media .m1{inset:0 22% 18% 0}
+  .about-media .m2{right:0;bottom:0;width:52%;height:58%;border:6px solid var(--forest)}
+  .about-media img{width:100%;height:100%;object-fit:cover}
+  .about p.lead{color:rgba(248,243,234,.78);font-size:17px;margin:18px 0 34px}
+  .about .eyebrow{color:var(--gold-2)}
+  .about .eyebrow::before,.about .eyebrow::after{background:var(--gold-2)}
+  .pros{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .pro{padding:22px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(217,183,122,.2);transition:background .3s,transform .3s}
+  .pro:hover{background:rgba(255,255,255,.09);transform:translateY(-4px)}
+  .pro b{display:block;font-family:'Cormorant Garamond';font-size:24px;color:var(--gold-2);margin-bottom:4px}
+  .pro span{font-size:14px;color:rgba(248,243,234,.72)}
+  .stats{display:flex;gap:44px;margin-top:40px;flex-wrap:wrap}
+  .stats b{font-family:'Cormorant Garamond';font-size:52px;color:#fff;line-height:1;display:block}
+  .stats span{font-size:13px;color:rgba(248,243,234,.65);font-weight:600}
+
+  /* size guide */
+  .guide-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:stretch}
+  .guide-visual{background:#fff;border-radius:var(--r);padding:36px;box-shadow:var(--shadow-sm);display:flex;align-items:flex-end;justify-content:space-around;gap:10px;min-height:400px;position:relative}
+  .guide-visual::before{content:"";position:absolute;left:36px;right:36px;bottom:72px;border-top:1px dashed rgba(19,48,31,.2)}
+  .gtree{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;position:relative;z-index:1}
+  .gtree svg{transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s}
+  .gtree svg path{fill:#C8D2C6;transition:fill .35s}
+  .gtree.active svg path{fill:var(--pine)}
+  .gtree:hover svg{transform:translateY(-6px)}
+  .gtree b{font-size:14px;color:var(--forest);padding:6px 12px;border-radius:100px;transition:all .3s}
+  .gtree.active b{background:var(--forest);color:#fff}
+  .guide-info{background:linear-gradient(160deg,var(--cream-2),#fff);border-radius:var(--r);padding:40px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:center}
+  .guide-info .h{font-family:'Cormorant Garamond';font-size:68px;color:var(--gold);font-weight:700;line-height:1}
+  .guide-info h3{font-size:32px;margin:6px 0 14px}
+  .guide-info p{color:var(--muted);margin-bottom:10px}
+  .guide-info ul{list-style:none;margin:10px 0 28px}
+  .guide-info li{padding:10px 0;border-bottom:1px solid rgba(19,48,31,.08);display:flex;justify-content:space-between;font-size:15px}
+  .guide-info li span{color:var(--muted)}
+  .guide-info li b{color:var(--forest)}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:280px 280px;gap:18px}
+  .gallery figure{position:relative;border-radius:var(--r);overflow:hidden;cursor:zoom-in}
+  .gallery figure:first-child{grid-row:span 2}
+  .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .gallery figure:hover img{transform:scale(1.06)}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 18px;background:linear-gradient(transparent,rgba(10,25,16,.75));color:#fff;font-weight:600;font-size:14px}
+  .gallery figcaption .script{color:var(--gold-2);font-size:24px;display:block;line-height:1}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+  .step{background:#fff;border-radius:var(--r);padding:32px 26px;box-shadow:var(--shadow-sm);position:relative;transition:transform .35s}
+  .step:hover{transform:translateY(-6px)}
+  .step::before{counter-increment:s;content:"0" counter(s);font-family:'Cormorant Garamond';font-size:56px;font-weight:700;color:var(--gold-2);line-height:1;display:block;margin-bottom:12px}
+  .step h3{font-size:24px;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14.5px}
+
+  /* reviews */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .review{background:#fff;border-radius:var(--r);padding:32px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+  .stars{color:var(--gold);letter-spacing:3px;margin-bottom:14px}
+  .review p{font-size:15.5px;color:#3E463F;margin-bottom:22px;flex:1}
+  .who{display:flex;align-items:center;gap:12px}
+  .who .av{width:44px;height:44px;border-radius:50%;background:var(--forest);color:var(--gold-2);display:grid;place-items:center;font-family:'Cormorant Garamond';font-weight:700;font-size:20px}
+  .who b{display:block;font-size:15px}
+  .who small{color:var(--muted);font-size:13px}
+
+  /* faq */
+  .faq{max-width:820px;margin:0 auto}
+  .qa{border-bottom:1px solid rgba(19,48,31,.12)}
+  .qa button{width:100%;background:none;border:none;text-align:left;padding:24px 0;font-size:18px;font-weight:700;color:var(--forest);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .qa .pm{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;flex-shrink:0;transition:transform .35s,background .35s;color:var(--gold);font-size:20px;line-height:1}
+  .qa.open .pm{transform:rotate(45deg);background:var(--gold);color:#fff}
+  .qa .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+  .qa.open .ans{grid-template-rows:1fr}
+  .qa .ans>div{overflow:hidden;color:var(--muted);font-size:15.5px}
+  .qa .ans p{padding-bottom:24px}
+
+  /* cta / order */
+  .order{background:var(--forest);border-radius:32px;padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:56px;color:var(--cream);position:relative;overflow:hidden}
+  .order::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(217,183,122,.25),transparent 70%);right:-160px;top:-200px}
+  .order h2{color:#fff;font-size:clamp(36px,4vw,54px);margin-bottom:16px}
+  .order .script{font-size:30px;display:block;margin-bottom:6px;color:var(--gold-2)}
+  .order p{color:rgba(248,243,234,.75)}
+  .contacts{margin-top:30px;display:grid;gap:12px}
+  .contacts a{display:flex;align-items:center;gap:12px;font-weight:600}
+  .contacts .ci{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;color:var(--gold-2)}
+  form{position:relative;z-index:1;display:grid;gap:14px}
+  .field{display:grid;gap:6px}
+  .field label{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:rgba(248,243,234,.7)}
+  .field input,.field select,.field textarea{padding:15px 18px;border-radius:14px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:15px;outline:none;transition:border-color .25s,background .25s}
+  .field select option{color:var(--ink)}
+  .field input::placeholder,.field textarea::placeholder{color:rgba(248,243,234,.4)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold-2);background:rgba(255,255,255,.1)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-note{font-size:12.5px;color:rgba(248,243,234,.5)}
+  .success{display:none;text-align:center;padding:40px 10px;position:relative;z-index:1}
+  .success.show{display:block;animation:pop .6s cubic-bezier(.3,1.5,.5,1)}
+  @keyframes pop{from{opacity:0;transform:scale(.9)}}
+  .success .ok{width:76px;height:76px;border-radius:50%;background:var(--gold);display:grid;place-items:center;margin:0 auto 20px}
+  .success h3{color:#fff;font-size:36px;margin-bottom:8px}
+
+  footer{padding:60px 0 40px;color:var(--muted);font-size:14px}
+  footer .container{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .demo-note{font-size:12.5px;opacity:.8}
+
+  /* drawer */
+  .overlay{position:fixed;inset:0;background:rgba(10,22,14,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .35s;z-index:200}
+  .overlay.show{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--cream);z-index:201;transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:24px 28px;border-bottom:1px solid rgba(19,48,31,.1)}
+  .drawer-head h3{font-size:32px}
+  .x{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(19,48,31,.15);background:#fff;cursor:pointer;font-size:22px;color:var(--forest);line-height:1;transition:transform .3s}
+  .x:hover{transform:rotate(90deg)}
+  .drawer-list{flex:1;overflow:auto;padding:12px 28px}
+  .ci-row{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid rgba(19,48,31,.08);animation:pop .4s}
+  .ci-row img{width:72px;height:86px;object-fit:cover;object-position:top;border-radius:12px}
+  .ci-row b{font-family:'Cormorant Garamond';font-size:21px;color:var(--forest);display:block;line-height:1.1}
+  .ci-row small{color:var(--muted);font-size:13px;display:block}
+  .qty{display:flex;width:max-content;align-items:center;gap:10px;margin-top:6px;font-weight:700;font-size:14px}
+  .qty button{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(19,48,31,.15);background:#fff;cursor:pointer;color:var(--forest);font-weight:700}
+  .ci-price{text-align:right;font-weight:800;color:var(--forest);font-size:15px}
+  .ci-price button{display:block;margin:8px 0 0 auto;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
+  .empty{text-align:center;padding:60px 10px;color:var(--muted)}
+  .empty .script{font-size:30px;display:block;margin-bottom:6px}
+  .drawer-foot{padding:24px 28px;border-top:1px solid rgba(19,48,31,.1);background:#fff}
+  .tot{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .tot span{color:var(--muted);font-size:14px}
+  .tot b{font-family:'Cormorant Garamond';font-size:36px;color:var(--forest)}
+  .saved{font-size:13.5px;color:var(--pine);font-weight:700;margin-bottom:16px}
+  .drawer-foot .btn{width:100%}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .35s}
+  .modal.show{opacity:1;pointer-events:auto}
+  .modal-box{background:#fff;border-radius:28px;max-width:980px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;transform:translateY(30px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .modal.show .modal-box{transform:none}
+  .modal-media{background:var(--cream-2);min-height:520px}
+  .modal-media img{width:100%;height:100%;object-fit:cover;object-position:top}
+  .modal-body{padding:44px 40px}
+  .modal-body h3{font-size:44px;margin-bottom:8px}
+  .modal-body .desc{color:var(--muted);margin-bottom:22px}
+  .spec{list-style:none;margin:0 0 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .spec li{background:var(--cream);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted)}
+  .spec li b{display:block;color:var(--forest);font-size:14px}
+  .ptable{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:14.5px}
+  .ptable tr{cursor:pointer;transition:background .2s}
+  .ptable tr:hover{background:var(--cream)}
+  .ptable td{padding:10px 8px;border-bottom:1px solid rgba(19,48,31,.07)}
+  .ptable td:nth-child(2){color:var(--muted);text-decoration:line-through;font-size:13px}
+  .ptable td:last-child{text-align:right}
+  .ptable td:last-child span{display:inline-block;padding:5px 14px;border-radius:100px;background:var(--forest);color:#fff;font-weight:700}
+  .ptable tr.sel td:last-child span{background:var(--gold)}
+  .ptable tr.sel{background:var(--cream)}
+  .modal .x{position:absolute;top:18px;right:18px;z-index:2}
+
+  .lightbox{position:fixed;inset:0;background:rgba(8,18,12,.92);z-index:400;display:grid;place-items:center;padding:30px;opacity:0;pointer-events:none;transition:opacity .3s;cursor:zoom-out}
+  .lightbox.show{opacity:1;pointer-events:auto}
+  .lightbox img{max-height:90vh;max-width:92vw;border-radius:16px}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--forest);color:#fff;padding:14px 22px;border-radius:100px;font-weight:600;font-size:14.5px;z-index:500;box-shadow:var(--shadow-lg);transition:transform .45s cubic-bezier(.3,1.4,.5,1);display:flex;gap:10px;align-items:center}
+  .toast.show{transform:translate(-50%,0)}
+  .demo-badge{position:fixed;left:16px;bottom:16px;z-index:150;display:flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:100px;background:rgba(19,48,31,.92);backdrop-filter:blur(8px);color:var(--cream);font-size:12.5px;font-weight:600;box-shadow:var(--shadow-md);transition:opacity .3s}
+  .demo-badge b{color:var(--gold-2);font-weight:800}
+  .demo-badge .dd{width:8px;height:8px;border-radius:50%;background:var(--gold-2);box-shadow:0 0 0 4px rgba(217,183,122,.25);animation:pulse 2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(217,183,122,0)}}
+  .demo-badge button{background:none;border:none;color:rgba(248,243,234,.6);font-size:16px;cursor:pointer;margin-left:2px;line-height:1}
+  .demo-badge.hidden{opacity:0;pointer-events:none}
+  .demo-strip{background:var(--gold);color:#fff;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:6px 16px}
+
+  /* responsive */
+  @media (max-width:1020px){
+    nav{display:none}
+    nav.open{display:block;position:absolute;top:76px;left:0;right:0;background:var(--cream);padding:20px 32px 28px;box-shadow:var(--shadow-md)}
+    nav.open ul{flex-direction:column;gap:16px}
+    .nav-toggle{display:block}
+    .hero .container,.about .container,.guide-wrap,.order{grid-template-columns:1fr}
+    .hero-visual{height:520px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .reviews{grid-template-columns:1fr}
+    .modal-box{grid-template-columns:1fr}
+    .modal-media{min-height:0;height:380px}
+  }
+  @media (max-width:640px){
+    .container{padding:0 16px}
+    .section{padding:72px 0}
+    .head-actions .btn{display:none}
+    .hero{padding:40px 0 70px}
+    .hero-visual{height:440px}
+    .hero-img{inset:0 0 0 0}
+    .hero-badge.b2{right:8px}
+    .hero-badge.b1{left:8px;bottom:24px}
+    .feat-row{grid-template-columns:repeat(2,1fr);gap:20px}
+    .grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .gallery figure{height:200px}
+    .gallery figure:first-child{grid-column:span 2;grid-row:auto;height:300px}
+    .about-media{height:400px}
+    .pros{grid-template-columns:1fr}
+    .order{padding:36px 22px;border-radius:24px}
+    .row2{grid-template-columns:1fr}
+    .modal-body{padding:30px 22px}
+    .modal-body h3{font-size:36px}
+    .guide-visual{padding:24px 12px;min-height:320px}
+    .guide-visual svg{width:44px}
+    .toolbar{flex-direction:column;align-items:flex-start}
+    .toast{bottom:auto;top:20px;transform:translate(-50%,-140px)}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-strip">ДЕМО-ВЕРСІЯ САЙТУ · розробка <b>nest.a.s</b></div>
+<div class="promo-bar">🎄 <b>Сезонна акція −33%</b> на всі моделі · до кінця акції:<span class="cd" id="countdown">--</span></div>
+
+<header id="header">
+  <div class="container">
+    <a href="#top" class="logo" aria-label="ХВОЯ">
+      <span class="logo-mark">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#13301F" stroke-width="1.6" stroke-linejoin="round"><path d="M16 3l-5 7h3l-5 7h4l-6 8h18l-6-8h4l-5-7h3z"/><path d="M16 25v4"/><path d="M6 12l-3 4h2l-3 4h6M26 12l3 4h-2l3 4h-6" stroke-width="1.2"/></svg>
+      </span>
+      <span class="logo-word">ХВОЯ<small>ЛИТІ ЯЛИНКИ</small></span>
+    </a>
+    <nav id="nav">
+      <ul>
+        <li><a href="#catalog">Каталог</a></li>
+        <li><a href="#about">Виробництво</a></li>
+        <li><a href="#guide">Як обрати</a></li>
+        <li><a href="#delivery">Доставка</a></li>
+        <li><a href="#faq">Питання</a></li>
+      </ul>
+    </nav>
+    <div class="head-actions">
+      <a href="#order" class="btn btn-forest" style="padding:13px 24px">Замовити</a>
+      <button class="cart-btn" id="cartBtn" aria-label="Кошик">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13301F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 016 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="snow" id="snow"></div>
+  <div class="container">
+    <div class="reveal">
+      <div class="season">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="#B88A4A"><path d="M16 2l-6 9h4l-6 9h5l-7 9h20l-7-9h5l-6-9h4z"/></svg>
+        СЕЗОН 2026–2027
+      </div>
+      <h1>Штучні литі<span>ялинки</span></h1>
+      <span class="script">Новорічна атмосфера у вашому домі ♡</span>
+      <p class="lead">Преміум якість від українського виробника. Реалістична хвоя, густі гілки та надійна металева підставка — ялинка, що радуватиме вас десятки сезонів.</p>
+      <div class="hero-ctas">
+        <a href="#catalog" class="btn btn-gold">Обрати ялинку
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#guide" class="btn btn-ghost">Підібрати висоту</a>
+      </div>
+      <div class="feat-row">
+        <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19c0-8 6-14 15-14-1 9-7 15-15 14z"/><path d="M5 19l8-8"/></svg></div><p>Натуральний вигляд</p></div>
+        <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6 4h12l3 5-9 11L3 9z"/><path d="M3 9h18M9 4l3 16 3-16"/></svg></div><p>Висока якість</p></div>
+        <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l-4 6h3l-4 6h10l-4-6h3z"/><path d="M12 14v4M6 22l6-4 6 4"/></svg></div><p>Металева підставка</p></div>
+        <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><p>Довговічність</p></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-img"><img src="img/vienna-room.jpg" alt="Штучна лита ялинка «Віденська» у затишній вітальні"></div>
+      <div class="hero-badge b2"><div><span class="big">9</span></div><small>моделей<br>у колекції</small></div>
+      <div class="hero-badge b1"><div><span class="big">−33%</span></div><small>сезонні ціни<br>на всі висоти</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Альпійська</span><span>Міланська</span><span>Ковалівська</span><span>Лапландська</span><span>Віденська</span><span>Аляска</span><span>Блакитні ялинки</span><span>Доставка по Україні</span>
+    <span>Альпійська</span><span>Міланська</span><span>Ковалівська</span><span>Лапландська</span><span>Віденська</span><span>Аляска</span><span>Блакитні ялинки</span><span>Доставка по Україні</span>
+  </div>
+</div>
+
+<section class="section" id="catalog">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Каталог</div>
+      <h2>Оберіть свою ялинку</h2>
+      <p>Усі моделі — у п’яти висотах від 1,5 до 2,5 м. Оберіть висоту прямо на картці, і ціна оновиться.</p>
+    </div>
+    <div class="toolbar reveal">
+      <div class="chips" id="filters">
+        <button class="chip active" data-f="all">Усі моделі</button>
+        <button class="chip" data-f="green"><span class="dot" style="background:var(--pine)"></span>Зелені</button>
+        <button class="chip" data-f="blue"><span class="dot" style="background:var(--blue)"></span>Блакитні</button>
+      </div>
+      <label class="sort">Сортувати:
+        <select id="sort">
+          <option value="pop">За популярністю</option>
+          <option value="asc">Спочатку дешевші</option>
+          <option value="desc">Спочатку дорожчі</option>
+        </select>
+      </label>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="container">
+    <div class="about-media reveal">
+      <div class="m1"><img src="img/needles-hand.jpg" alt="Реалістичні литі гілки ялинки"></div>
+      <div class="m2"><img src="img/needles.jpg" alt="Крупний план хвої"></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Виробництво</div>
+      <h2 style="font-size:clamp(38px,4.4vw,58px)">Кожна гілка — як справжня</h2>
+      <p class="lead">Ми виготовляємо ялинки за технологією лиття: кожну гілочку відливають у формі, знятій з живої ялини. Тому хвоя має природну структуру, об’єм і відтінки — від глибокого зеленого до морозно-блакитного.</p>
+      <div class="pros">
+        <div class="pro"><b>100% лита хвоя</b><span>Гілки не плющаться та тримають форму роками</span></div>
+        <div class="pro"><b>Безпечні матеріали</b><span>Без запаху, не осипається, підходить для дітей і тварин</span></div>
+        <div class="pro"><b>Металева підставка</b><span>Стійка конструкція, що витримує прикраси та гірлянди</span></div>
+        <div class="pro"><b>Швидке збирання</b><span>Гачкова система: 10–15 хвилин — і ялинка готова</span></div>
+      </div>
+      <div class="stats">
+        <div><b data-count="12">0</b><span>сезонів служби</span></div>
+        <div><b data-count="3500">0</b><span>родин уже з нами</span></div>
+        <div><b data-count="9">0</b><span>моделей</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="guide">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Як обрати</div>
+      <h2>Яка висота підійде саме вам?</h2>
+      <p>Натисніть на ялинку, щоб побачити рекомендації для вашого приміщення.</p>
+    </div>
+    <div class="guide-wrap reveal">
+      <div class="guide-visual" id="guideVisual"></div>
+      <div class="guide-info" id="guideInfo"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">У ваших домівках</div>
+      <h2>Магія, яку створюють наші клієнти</h2>
+    </div>
+    <div class="gallery reveal">
+      <figure><img src="img/lights.jpg" alt="Віденська ялинка з гірляндою" loading="lazy"><figcaption><span class="script">Віденська</span>Ялинка, якій не потрібна реклама</figcaption></figure>
+      <figure><img src="img/studio.jpg" alt="Альпійська ялинка у фотостудії" loading="lazy"><figcaption><span class="script">Альпійська</span>Прикрашає фотостудію</figcaption></figure>
+      <figure><img src="img/vienna-room.jpg" alt="Віденська зелена у вітальні" loading="lazy"><figcaption><span class="script">Віденська</span>Пишна та реалістична</figcaption></figure>
+      <figure><img src="img/needles.jpg" alt="Лита хвоя крупним планом" loading="lazy"><figcaption><span class="script">Деталі</span>Натуральна структура гілок</figcaption></figure>
+      <figure><img src="img/needles-hand.jpg" alt="Гілка лита" loading="lazy"><figcaption><span class="script">На дотик</span>М’яка, але пружна хвоя</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="delivery" style="background:var(--cream-2)">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Як замовити</div>
+      <h2>Від заявки до свята — 4 кроки</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><h3>Заявка</h3><p>Оформіть замовлення на сайті або напишіть нам в Instagram — консультант зв’яжеться за 15 хвилин.</p></div>
+      <div class="step"><h3>Підтвердження</h3><p>Уточнюємо модель, висоту та адресу. Можна оплатити онлайн або при отриманні.</p></div>
+      <div class="step"><h3>Відправка</h3><p>Надсилаємо Новою Поштою протягом 1–2 днів у міцній брендованій коробці.</p></div>
+      <div class="step"><h3>Свято</h3><p>Збираєте ялинку за 15 хвилин і створюєте новорічну атмосферу вдома ♡</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Відгуки</div>
+      <h2>Що кажуть покупці</h2>
+    </div>
+    <div class="reviews reveal">
+      <div class="review"><div class="stars">★★★★★</div><p>Віденська просто неймовірна — гості не вірять, що вона штучна. Збирали з дитиною 15 хвилин, гілки розправляються дуже легко.</p><div class="who"><div class="av">О</div><div><b>Олена</b><small>Київ · Віденська 2,1 м</small></div></div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>Брали Лапландську блакитну. Колір дуже благородний, на фото не передати. Доставка за два дні, коробка ціла.</p><div class="who"><div class="av">А</div><div><b>Андрій</b><small>Львів · Лапландська блакитна 1,8 м</small></div></div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>Альпійська прикрашає нашу фотостудію вже другий сезон — виглядає як новенька. Клієнти постійно питають, де купували.</p><div class="who"><div class="av">М</div><div><b>Марина</b><small>Одеса · Альпійська 2,3 м</small></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Питання</div>
+      <h2>Часті запитання</h2>
+    </div>
+    <div class="faq reveal" id="faqList"></div>
+  </div>
+</section>
+
+<section class="section" id="order" style="padding-top:0">
+  <div class="container">
+    <div class="order reveal">
+      <div style="position:relative;z-index:1">
+        <span class="script">Встигніть за акційною ціною</span>
+        <h2>Оформіть замовлення</h2>
+        <p>Залиште контакти — ми підтвердимо наявність, порадимо висоту й відправимо ялинку вже завтра.</p>
+        <div class="contacts">
+          <a href="tel:+380000000000"><span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg></span>+38 (0XX) XXX-XX-XX</a>
+          <a href="https://www.instagram.com/hvoya.in.ua/" target="_blank" rel="noopener"><span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>@hvoya.in.ua</a>
+        </div>
+      </div>
+      <div>
+        <form id="orderForm">
+          <div class="row2">
+            <div class="field"><label for="fName">Ім’я</label><input id="fName" required placeholder="Ваше ім’я"></div>
+            <div class="field"><label for="fPhone">Телефон</label><input id="fPhone" type="tel" required placeholder="+38 0__ ___ __ __"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="fModel">Модель</label><select id="fModel"></select></div>
+            <div class="field"><label for="fHeight">Висота</label><select id="fHeight"><option>1,5 м</option><option>1,8 м</option><option selected>2,1 м</option><option>2,3 м</option><option>2,5 м</option></select></div>
+          </div>
+          <div class="field"><label for="fCity">Місто та відділення НП</label><input id="fCity" placeholder="Київ, відділення №1"></div>
+          <button class="btn btn-gold" type="submit" style="margin-top:6px">Надіслати заявку</button>
+          <p class="form-note">Демо-форма від nest.a.s: дані нікуди не надсилаються.</p>
+        </form>
+        <div class="success" id="success">
+          <div class="ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12l5 5 9-10"/></svg></div>
+          <h3>Дякуємо за замовлення!</h3>
+          <p>Менеджер зв’яжеться з вами найближчим часом 🎄</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="#top" class="logo"><span class="logo-word" style="font-size:22px">ХВОЯ<small>ЛИТІ ЯЛИНКИ</small></span></a>
+    <span>© 2026 · Штучні литі ялинки преміум якості</span>
+    <span class="demo-note">Демо-версія сайту від <b style="color:var(--forest)">nest.a.s</b> · ціни та контакти для ознайомлення</span>
+  </div>
+</footer>
+
+<!-- cart drawer -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Кошик">
+  <div class="drawer-head"><h3>Кошик</h3><button class="x" data-close aria-label="Закрити">×</button></div>
+  <div class="drawer-list" id="cartList"></div>
+  <div class="drawer-foot" id="cartFoot">
+    <div class="tot"><span>Разом</span><b id="cartTotal">0 грн</b></div>
+    <div class="saved" id="cartSaved"></div>
+    <button class="btn btn-gold" id="checkout">Оформити замовлення</button>
+  </div>
+</aside>
+
+<!-- product modal -->
+<div class="modal" id="modal">
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="x" data-close aria-label="Закрити">×</button>
+    <div class="modal-media"><img id="mImg" alt=""></div>
+    <div class="modal-body">
+      <div class="card-type" id="mType"></div>
+      <h3 id="mName"></h3>
+      <p class="desc" id="mDesc"></p>
+      <ul class="spec">
+        <li>Тип хвої<b>Лита (PE) + ПВХ</b></li>
+        <li>Підставка<b>Металева</b></li>
+        <li>Збирання<b>Гачкова система</b></li>
+        <li>Гарантія<b>2 роки</b></li>
+      </ul>
+      <table class="ptable" id="mTable"></table>
+      <button class="btn btn-gold" id="mAdd" style="width:100%">Додати в кошик</button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox"><img alt=""></div>
+<div class="toast" id="toast"></div>
+<div class="demo-badge" id="demoBadge"><span class="dd"></span>Демо від <b>nest.a.s</b><button aria-label="Сховати" onclick="this.parentElement.classList.add('hidden')">×</button></div>
+
+<script>
+const H = ['1,5','1,8','2,1','2,3','2,5'];
+const P = {
+  alpine:[[4800,3200],[6750,4500],[10350,6900],[11250,7500],[14250,9500]],
+  milan:[[4650,3100],[6900,4600],[9300,6200],[11700,7800],[14850,9900]],
+  koval:[[3750,2500],[5550,3700],[7200,4800],[8925,5950],[11400,7600]],
+  lap:[[4200,2800],[5925,3950],[7950,5300],[10350,6900],[12750,8500]],
+  vien:[[3450,2400],[5700,3800],[7350,4900],[9300,6200],[12300,8200]],
+  alaska:[[5250,3500],[8250,5500],[10050,6700],[12450,8300],[16125,10750]],
+};
+const products = [
+  {id:'vienna',name:'Віденська',sub:'зелена',color:'green',img:'img/vienna.jpg',prices:P.vien,hit:true,desc:'Пишна, реалістична та дуже натуральна. Густі гілки з м’якою хвоєю — найпопулярніша модель сезону.'},
+  {id:'alpine',name:'Альпійська',sub:'зелена',color:'green',img:'img/alpine.jpg',prices:P.alpine,hit:true,desc:'Глибокий смарагдовий колір і реалістичні голки. Виглядає як щойно зрубана ялина з гірського лісу.'},
+  {id:'lapland-blue',name:'Лапландська',sub:'блакитна',color:'blue',img:'img/lapland-blue.jpg',prices:P.lap,desc:'Морозно-блакитна хвоя з ефектом інею. Елегантна основа для срібного та білого декору.'},
+  {id:'milan',name:'Міланська',sub:'зелена',color:'green',img:'img/milan.jpg',prices:P.milan,desc:'Об’ємна форма з природними переходами відтінків. Реалістичні гілки та натуральна структура хвої.'},
+  {id:'alaska',name:'Аляска',sub:'преміум',color:'blue',img:'img/alaska.jpg',prices:P.alaska,desc:'Флагман колекції: максимально густа крона та сіро-зелена хвоя, як у північної ялини.'},
+  {id:'vienna-blue',name:'Віденська',sub:'блакитна',color:'blue',img:'img/vienna-blue.jpg',prices:P.vien,desc:'Та сама пишна Віденська — у ніжному блакитному кольорі.'},
+  {id:'lapland',name:'Лапландська',sub:'зелена',color:'green',img:'img/lapland.jpg',prices:P.lap,desc:'Класична форма з довгими гнучкими гілками. Чудово тримає важкі іграшки.'},
+  {id:'kovalivska',name:'Ковалівська',sub:'зелена',color:'green',img:'img/kovalivska.jpg',prices:P.koval,desc:'Струнка та легка, ідеальна для невеликих квартир. Найкраще співвідношення ціни та якості.'},
+  {id:'kovalivska-blue',name:'Ковалівська',sub:'блакитна',color:'blue',img:'img/kovalivska-blue.jpg',prices:P.koval,desc:'Струнка ялинка з блакитною хвоєю — доступний спосіб додати інтер’єру зимової свіжості.'},
+];
+const fmt = n => n.toLocaleString('uk-UA').replace(/\s/g,' ') + ' грн';
+const sel = {}; products.forEach(p=>sel[p.id]=2);
+const colorDot = c => c==='blue' ? 'var(--blue)' : 'var(--pine)';
+
+/* ---------- catalog ---------- */
+const grid = document.getElementById('grid');
+function cardHTML(p){
+  const i = sel[p.id], [o,n] = p.prices[i];
+  const off = Math.round((1-n/o)*100);
+  return `<article class="card" data-id="${p.id}" data-color="${p.color}">
+    <div class="card-media" data-open>
+      <img src="${p.img}" alt="Ялинка ${p.name} ${p.sub}" loading="lazy">
+      <span class="tag">−${off}%</span>${p.hit?'<span class="tag hit">Хіт сезону</span>':''}
+      <div class="quick">Детальніше</div>
+    </div>
+    <div class="card-body">
+      <div class="card-type"><span class="dot" style="background:${colorDot(p.color)}"></span>Штучна ялинка · ${p.sub}</div>
+      <h3>${p.name} ${p.sub}</h3>
+      <div class="sizes">${H.map((h,k)=>`<button class="size${k===i?' active':''}" data-h="${k}">${h}</button>`).join('')}</div>
+      <div class="price-row">
+        <div><div class="price-old">${fmt(o)}</div><div class="price">${n.toLocaleString('uk-UA')} <small>грн</small></div></div>
+        <button class="add" data-add aria-label="Додати в кошик"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </div></article>`;
+}
+let filter='all', sortMode='pop';
+function render(){
+  let list=[...products];
+  if(sortMode!=='pop') list.sort((a,b)=>(a.prices[sel[a.id]][1]-b.prices[sel[b.id]][1])*(sortMode==='asc'?1:-1));
+  grid.innerHTML=list.map(cardHTML).join('');
+  applyFilter();
+}
+function applyFilter(){
+  grid.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide', filter!=='all' && c.dataset.color!==filter));
+}
+function updateCard(card){
+  const p=products.find(x=>x.id===card.dataset.id), i=sel[p.id], [o,n]=p.prices[i];
+  card.querySelectorAll('.size').forEach((b,k)=>b.classList.toggle('active',k===i));
+  card.querySelector('.price-old').textContent=fmt(o);
+  card.querySelector('.price').innerHTML=`${n.toLocaleString('uk-UA')} <small>грн</small>`;
+}
+grid.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card) return;
+  const id=card.dataset.id;
+  const s=e.target.closest('.size');
+  if(s){ sel[id]=+s.dataset.h; updateCard(card); return; }
+  const a=e.target.closest('[data-add]');
+  if(a){ addToCart(id, sel[id]); a.classList.add('done'); setTimeout(()=>a.classList.remove('done'),900); return; }
+  if(e.target.closest('[data-open]')) openModal(id);
+});
+document.getElementById('filters').addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  document.querySelectorAll('#filters .chip').forEach(x=>x.classList.toggle('active',x===c));
+  filter=c.dataset.f; applyFilter();
+});
+document.getElementById('sort').addEventListener('change',e=>{sortMode=e.target.value;render();});
+render();
+
+/* ---------- cart ---------- */
+let cart=[];
+try{ cart=JSON.parse(localStorage.getItem('hvoya-cart')||'[]'); }catch(e){}
+const save=()=>{ try{localStorage.setItem('hvoya-cart',JSON.stringify(cart));}catch(e){} };
+function addToCart(id,h){
+  const ex=cart.find(c=>c.id===id&&c.h===h);
+  ex?ex.q++:cart.push({id,h,q:1});
+  save(); renderCart();
+  const p=products.find(x=>x.id===id);
+  toast(`🎄 ${p.name} ${p.sub}, ${H[h]} м — у кошику`);
+  const b=document.getElementById('cartBtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+}
+function renderCart(){
+  const list=document.getElementById('cartList');
+  const count=cart.reduce((s,c)=>s+c.q,0);
+  const cc=document.getElementById('cartCount'); cc.textContent=count; cc.classList.toggle('show',count>0);
+  document.getElementById('cartFoot').style.display=count?'block':'none';
+  if(!count){ list.innerHTML='<div class="empty"><span class="script">Поки що порожньо</span>Оберіть ялинку в каталозі ♡</div>'; return; }
+  let tot=0, old=0;
+  list.innerHTML=cart.map((c,i)=>{
+    const p=products.find(x=>x.id===c.id), [o,n]=p.prices[c.h];
+    tot+=n*c.q; old+=o*c.q;
+    return `<div class="ci-row"><img src="${p.img}" alt=""><div><b>${p.name} ${p.sub}</b><small>Висота ${H[c.h]} м</small><div class="qty"><button data-q="-1" data-i="${i}">−</button>${c.q}<button data-q="1" data-i="${i}">+</button></div></div>
+      <div class="ci-price">${fmt(n*c.q)}<button data-del="${i}">Видалити</button></div></div>`;
+  }).join('');
+  document.getElementById('cartTotal').textContent=fmt(tot);
+  document.getElementById('cartSaved').textContent=`Ваша економія: ${fmt(old-tot)}`;
+}
+document.getElementById('cartList').addEventListener('click',e=>{
+  const q=e.target.dataset.q, d=e.target.dataset.del;
+  if(q){ const c=cart[+e.target.dataset.i]; c.q+=+q; if(c.q<1) cart.splice(+e.target.dataset.i,1); }
+  else if(d!==undefined) cart.splice(+d,1);
+  else return;
+  save(); renderCart();
+});
+const overlay=document.getElementById('overlay'), drawer=document.getElementById('drawer'), modal=document.getElementById('modal');
+const openDrawer=()=>{drawer.classList.add('show');overlay.classList.add('show');};
+function closeAll(){[drawer,overlay,modal,document.getElementById('lightbox')].forEach(x=>x.classList.remove('show'));document.body.style.overflow='';}
+document.getElementById('cartBtn').onclick=openDrawer;
+overlay.onclick=closeAll;
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeAll);
+modal.addEventListener('click',e=>{if(e.target===modal)closeAll();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();});
+document.getElementById('checkout').onclick=()=>{
+  closeAll();
+  if(cart[0]){ document.getElementById('fModel').value=cart[0].id; document.getElementById('fHeight').selectedIndex=cart[0].h; }
+  document.getElementById('order').scrollIntoView({behavior:'smooth'});
+};
+renderCart();
+
+/* ---------- modal ---------- */
+let mId=null;
+function openModal(id){
+  mId=id; const p=products.find(x=>x.id===id);
+  document.getElementById('mImg').src=p.img;
+  document.getElementById('mImg').alt=`${p.name} ${p.sub}`;
+  document.getElementById('mType').innerHTML=`<span class="dot" style="background:${colorDot(p.color)}"></span>Штучна лита ялинка`;
+  document.getElementById('mName').textContent=`${p.name} ${p.sub}`;
+  document.getElementById('mDesc').textContent=p.desc;
+  drawTable(p);
+  modal.classList.add('show'); overlay.classList.add('show'); document.body.style.overflow='hidden';
+}
+function drawTable(p){
+  document.getElementById('mTable').innerHTML=p.prices.map(([o,n],k)=>`<tr data-k="${k}" class="${k===sel[p.id]?'sel':''}"><td><b>${H[k]} м</b></td><td>${fmt(o)}</td><td><span>${fmt(n)}</span></td></tr>`).join('');
+}
+document.getElementById('mTable').addEventListener('click',e=>{
+  const tr=e.target.closest('tr'); if(!tr) return;
+  sel[mId]=+tr.dataset.k; drawTable(products.find(x=>x.id===mId));
+  const card=grid.querySelector(`[data-id="${mId}"]`); if(card) updateCard(card);
+});
+document.getElementById('mAdd').onclick=()=>{ addToCart(mId,sel[mId]); closeAll(); setTimeout(openDrawer,250); };
+
+/* ---------- size guide ---------- */
+const guide=[
+  {h:'1,5',ceil:'від 2,2 м',room:'Дитяча, кабінет, невелика квартира',dia:'~ 90 см',tip:'Компактна ялинка, яку легко поставити на тумбу чи в кут.'},
+  {h:'1,8',ceil:'від 2,4 м',room:'Спальня, невелика вітальня',dia:'~ 105 см',tip:'Найпопулярніший розмір для квартир зі стандартними стелями.'},
+  {h:'2,1',ceil:'від 2,6 м',room:'Вітальня у квартирі чи будинку',dia:'~ 120 см',tip:'Ідеальний баланс: пишно, але без відчуття тісноти.'},
+  {h:'2,3',ceil:'від 2,8 м',room:'Простора вітальня, студія',dia:'~ 135 см',tip:'Ефектна ялинка для приміщень з високими стелями.'},
+  {h:'2,5',ceil:'від 3,0 м',room:'Будинок, хол, офіс, фотостудія',dia:'~ 150 см',tip:'Справжня головна ялинка для великого свята.'},
+];
+const gv=document.getElementById('guideVisual'), gi=document.getElementById('guideInfo');
+gv.innerHTML=guide.map((g,k)=>{const s=0.55+k*0.12, w=Math.round(70*s), ht=Math.round(200*s);
+  return `<div class="gtree${k===2?' active':''}" data-k="${k}"><svg width="${w}" height="${ht}" viewBox="0 0 70 200" preserveAspectRatio="none"><path d="M35 0L14 50h10L6 100h12L0 160h70L52 100h12L46 50h10z"/><path d="M31 160h8v40h-8z"/></svg><b>${g.h} м</b></div>`}).join('');
+function showGuide(k){
+  const g=guide[k];
+  gv.querySelectorAll('.gtree').forEach((t,i)=>t.classList.toggle('active',i===k));
+  gi.innerHTML=`<div class="h">${g.h} м</div><h3>${g.room}</h3><p>${g.tip}</p>
+  <ul><li><span>Висота стелі</span><b>${g.ceil}</b></li><li><span>Діаметр нижнього ярусу</span><b>${g.dia}</b></li><li><span>Ціна</span><b>від ${fmt(Math.min(...products.map(p=>p.prices[k][1])))}</b></li></ul>
+  <a href="#catalog" class="btn btn-forest" data-pick="${k}">Показати ялинки ${g.h} м</a>`;
+}
+gv.addEventListener('click',e=>{const t=e.target.closest('.gtree'); if(t) showGuide(+t.dataset.k);});
+gi.addEventListener('click',e=>{const b=e.target.closest('[data-pick]'); if(!b) return; const k=+b.dataset.pick; products.forEach(p=>sel[p.id]=k); render();});
+showGuide(2);
+
+/* ---------- faq ---------- */
+const faq=[
+  ['Чим лита ялинка відрізняється від звичайної штучної?','Гілки литої ялинки відливають у формах, знятих зі справжньої ялини, тому вони об’ємні та мають природну структуру. Звичайна ПВХ-хвоя — це плоскі «стрічки» плівки.'],
+  ['Чи осипається ялинка і чи має запах?','Ні. Лита хвоя не осипається, не має запаху і безпечна для дітей та домашніх тварин.'],
+  ['Скільки часу займає збирання?','10–15 хвилин. Ялинка складається з кількох ярусів, гілки кріпляться на гачках — достатньо розправити їх.'],
+  ['Як відбувається доставка та оплата?','Відправляємо Новою Поштою по всій Україні за 1–2 робочі дні. Оплата онлайн або накладеним платежем при отриманні.'],
+  ['Чи можна повернути ялинку?','Так, протягом 14 днів, якщо товар не використовувався та збережено упаковку. Також діє гарантія 2 роки.'],
+];
+document.getElementById('faqList').innerHTML=faq.map(([q,a],i)=>`<div class="qa${i===0?' open':''}"><button aria-expanded="${i===0}">${q}<span class="pm">+</span></button><div class="ans"><div><p>${a}</p></div></div></div>`).join('');
+document.getElementById('faqList').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const qa=b.parentElement; qa.classList.toggle('open'); b.setAttribute('aria-expanded',qa.classList.contains('open'));});
+
+/* ---------- order form ---------- */
+const fModel=document.getElementById('fModel');
+fModel.innerHTML=products.map(p=>`<option value="${p.id}">${p.name} ${p.sub}</option>`).join('');
+document.getElementById('orderForm').addEventListener('submit',e=>{
+  e.preventDefault(); e.target.style.display='none'; document.getElementById('success').classList.add('show');
+  cart=[]; save(); renderCart();
+});
+
+/* ---------- gallery lightbox ---------- */
+const lb=document.getElementById('lightbox');
+document.querySelectorAll('.gallery figure').forEach(f=>f.onclick=()=>{lb.querySelector('img').src=f.querySelector('img').src;lb.classList.add('show');});
+lb.onclick=closeAll;
+
+/* ---------- misc ---------- */
+let tt; function toast(t){const el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('show'),2600);}
+document.getElementById('navToggle').onclick=()=>document.getElementById('nav').classList.toggle('open');
+document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>document.getElementById('nav').classList.remove('open'));
+window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>10),{passive:true});
+
+// countdown to end of current month
+(function(){
+  const now=new Date(), end=new Date(now.getFullYear(),now.getMonth()+1,1);
+  const el=document.getElementById('countdown');
+  const tick=()=>{let s=Math.max(0,(end-new Date())/1000|0);const d=s/86400|0;s%=86400;const h=s/3600|0;s%=3600;const m=s/60|0;s%=60;
+    el.textContent=` ${d} дн ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;};
+  tick(); setInterval(tick,1000);
+})();
+
+// snow
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const s=document.getElementById('snow');
+  for(let i=0;i<34;i++){const f=document.createElement('i');const z=2+Math.random()*5;
+    f.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;opacity:${.4+Math.random()*.5};animation-duration:${9+Math.random()*12}s;animation-delay:${-Math.random()*20}s`;s.appendChild(f);}
+})();
+
+// reveal + counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting) return;const el=e.target,t=+el.dataset.count,st=performance.now();
+  (function step(n){const p=Math.min((n-st)/1600,1);el.textContent=Math.floor((1-Math.pow(1-p,3))*t).toLocaleString('uk-UA')+(p===1&&t>100?'+':'');if(p<1)requestAnimationFrame(step);})(st);cio.unobserve(el);}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(c=>cio.observe(c));
+</script>
+</body>
+</html>
