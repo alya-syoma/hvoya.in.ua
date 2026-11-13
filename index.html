@@ -347,15 +347,6 @@
 
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--forest);color:#fff;padding:14px 22px;border-radius:100px;font-weight:600;font-size:14.5px;z-index:500;box-shadow:var(--shadow-lg);transition:transform .45s cubic-bezier(.3,1.4,.5,1);display:flex;gap:10px;align-items:center}
   .toast.show{transform:translate(-50%,0)}
-  .demo-modal{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(19,30,22,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
-  .demo-modal.show{opacity:1;pointer-events:auto}
-  .demo-card{position:relative;width:100%;max-width:440px;background:#FDF9F2;border-radius:32px;padding:44px 32px 36px;text-align:center;box-shadow:0 30px 80px rgba(10,25,16,.35);transform:translateY(24px) scale(.96);transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
-  .demo-modal.show .demo-card{transform:none}
-  .demo-ico{width:68px;height:68px;margin:0 auto 20px;border-radius:50%;background:#EAF1EA;display:grid;place-items:center;font-size:32px;box-shadow:0 0 0 6px rgba(217,183,122,.18)}
-  .demo-card h3{font-size:clamp(28px,7vw,36px);line-height:1.15;margin-bottom:14px}
-  .demo-card p{color:var(--muted);font-size:15px;line-height:1.65;margin-bottom:26px}
-  .demo-card p a{color:var(--gold);font-weight:800}
-  .demo-card .x{position:absolute;top:16px;right:16px}
   .to-top{position:fixed;right:16px;bottom:16px;z-index:150;width:54px;height:54px;border-radius:50%;border:none;background:var(--forest);color:var(--gold-2);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow-md);opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.3,1.4,.5,1),background .25s}
   .to-top.show{opacity:1;transform:none;pointer-events:auto}
   .to-top:hover{background:var(--forest-2)}
@@ -628,7 +619,7 @@
         <h2>Оформіть замовлення</h2>
         <p>Залиште контакти — ми підтвердимо наявність, порадимо висоту й відправимо ялинку вже завтра.</p>
         <div class="contacts">
-          <a href="tel:+380000000000"><span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg></span>+38 (0XX) XXX-XX-XX</a>
+          <a href="https://t.me/+380668586977" target="_blank" rel="noopener"><span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l8-6"/></svg></span>Telegram: +38 066 858 69 77</a>
           <a href="https://www.instagram.com/hvoya.in.ua/" target="_blank" rel="noopener"><span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>@hvoya.in.ua</a>
         </div>
       </div>
@@ -644,14 +635,16 @@
           </div>
           <div class="field"><label for="fCity">Місто та відділення НП</label><input id="fCity" placeholder="Київ, відділення №1"></div>
           <button class="btn btn-gold" type="submit" style="margin-top:6px">Надіслати заявку</button>
-          <p class="form-note">Демо-форма від <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" class="nest-link">nest.a.s</a>: замовлення тут не працюють.</p>
+          <p class="form-note">Після натискання заявка скопіюється, і відкриється наш Telegram — просто вставте текст і надішліть.</p>
         </form>
         <div class="success" id="success">
           <div class="ok"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12l5 5 9-10"/></svg></div>
-          <h3>Дякуємо за заявку!</h3>
-          <p>Це демо-сайт від <b>nest.a.s</b> 🎄 Хочете такий самий для свого бізнесу? Напишіть мені в Threads.</p>
-          <a class="btn btn-gold" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" style="margin-top:22px">Перейти в Threads
+          <h3>Майже готово!</h3>
+          <p>Текст заявки скопійовано. У Telegram, що відкрився, вставте його в чат і надішліть — менеджер відповість найближчим часом 🎄</p>
+          <a class="btn btn-gold" id="tgOpen" href="https://t.me/+380668586977" target="_blank" rel="noopener" style="margin-top:22px">Відкрити Telegram
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+          <button type="button" class="btn btn-light" id="tgCopy" style="margin-top:12px">Скопіювати заявку ще раз</button>
+          <pre id="tgText" style="white-space:pre-wrap;text-align:left;margin-top:18px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.06);color:rgba(248,243,234,.8);font:inherit;font-size:13.5px"></pre>
         </div>
       </div>
     </div>
@@ -707,15 +700,6 @@
   <figure><img alt="" id="lbImg"><figcaption id="lbCap"></figcaption></figure>
 </div>
 <div class="toast" id="toast"></div>
-<div class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
-  <div class="demo-card">
-    <button class="x" id="demoClose" aria-label="Закрити">×</button>
-    <div class="demo-ico">🎄</div>
-    <h3 id="demoTitle">Хочете таку вітрину?<br>Напишіть мені</h3>
-    <p>Це демо-сайт, який зробила <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">@nest.a.s</a>. Замовлення тут не працюють. Якщо вам потрібен такий сайт для вашого магазину, напишіть мені в&nbsp;Threads.</p>
-    <a class="btn btn-gold" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">Написати в Threads</a>
-  </div>
-</div>
 <button class="to-top" id="toTop" aria-label="Нагору">
   <svg class="ring" viewBox="0 0 54 54"><circle cx="27" cy="27" r="25" stroke="rgba(217,183,122,.2)"/><circle id="toTopRing" cx="27" cy="27" r="25" stroke="#D9B77A" stroke-linecap="round" stroke-dasharray="157.1" stroke-dashoffset="157.1"/></svg>
   <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
@@ -927,9 +911,25 @@ phone.addEventListener('keydown',e=>{if(e.key.length===1&&!/[0-9]/.test(e.key)&&
 
 document.getElementById('orderForm').addEventListener('submit',e=>{
   e.preventDefault();
-  if(phoneDigits(phone.value).length!==10){phone.parentElement.classList.add('invalid');phone.focus();return;} openDemo();
+  if(phoneDigits(phone.value).length!==10){phone.parentElement.classList.add('invalid');phone.focus();return;}
+  const v=id=>document.getElementById(id).value.trim();
+  const lines=['🎄 Заявка з сайту ХВОЯ','','Ім’я: '+v('fName'),'Телефон: '+phone.value,
+    'Модель: '+fModel.options[fModel.selectedIndex].text+', '+v('fHeight')];
+  if(v('fCity')) lines.push('Доставка: '+v('fCity'));
+  if(cart.length){lines.push('','Кошик:');cart.forEach(c=>{const p=products.find(x=>x.id===c.id);lines.push(`• ${p.name} ${p.sub}, ${H[c.h]} м × ${c.q} — ${fmt(p.prices[c.h][1]*c.q)}`);});}
+  const text=lines.join('\n');
+  copyText(text);
+  window.open('https://t.me/+380668586977','_blank','noopener');
+  document.getElementById('tgText').textContent=text;
+  e.target.style.display='none'; document.getElementById('success').classList.add('show');
   cart=[]; save(); renderCart();
 });
+function copyText(t){
+  try{ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).catch(()=>fallbackCopy(t));return;} }catch(_){}
+  fallbackCopy(t);
+}
+function fallbackCopy(t){const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(_){}ta.remove();}
+document.getElementById('tgCopy').onclick=()=>{copyText(document.getElementById('tgText').textContent);toast('Заявку скопійовано');};
 
 
 /* ---------- gallery carousel ---------- */
@@ -994,14 +994,6 @@ window.addEventListener('scroll',()=>document.getElementById('header').classList
   for(let i=0;i<34;i++){const f=document.createElement('i');const z=2+Math.random()*5;
     f.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;opacity:${.4+Math.random()*.5};animation-duration:${9+Math.random()*12}s;animation-delay:${-Math.random()*20}s`;s.appendChild(f);}
 })();
-
-// demo modal
-const demoModal=document.getElementById('demoModal');
-function openDemo(){demoModal.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('demoClose').focus(),50);}
-function closeDemo(){demoModal.classList.remove('show');document.body.style.overflow='';}
-document.getElementById('demoClose').onclick=closeDemo;
-demoModal.addEventListener('click',e=>{if(e.target===demoModal)closeDemo();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&demoModal.classList.contains('show'))closeDemo();});
 
 // back to top
 (function(){
